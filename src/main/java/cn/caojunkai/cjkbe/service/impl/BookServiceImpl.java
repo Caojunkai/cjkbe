@@ -1,6 +1,6 @@
 /* Created by Fitz on 2016/12/19 */
 
-package cn.caojunkai.cjkbe.serviceImpl;
+package cn.caojunkai.cjkbe.service.impl;
 
 import cn.caojunkai.cjkbe.dao.AppointmentDao;
 import cn.caojunkai.cjkbe.dao.BookDao;
