@@ -44,12 +44,14 @@ public class BookServiceImpl implements BookService {
     public AppointExecution appoint(long bookId, long stuId) {
         try {
             int update = bookDao.reduceNumber(bookId);
-            if (update <= 0)
+            if (update <= 0){
                 return new AppointExecution(bookId,AppointStateEnum.NO_NUMBER);
+            }
             else {
                 int insert = appointmentDao.insertAppointment(bookId,stuId);
-                if (insert <= 0)
+                if (insert <= 0){
                     return new AppointExecution(bookId,AppointStateEnum.REPEAT_APPOINT);
+                }
                 else {
                     Appointment appointment = appointmentDao.queryByKeyWithBook(bookId,stuId);
                     return new AppointExecution(bookId,AppointStateEnum.SUCCESS);
