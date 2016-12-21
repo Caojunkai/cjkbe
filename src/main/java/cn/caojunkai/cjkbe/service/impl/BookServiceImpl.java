@@ -8,6 +8,7 @@ import cn.caojunkai.cjkbe.dto.AppointExecution;
 import cn.caojunkai.cjkbe.entity.Appointment;
 import cn.caojunkai.cjkbe.entity.Book;
 import cn.caojunkai.cjkbe.enums.AppointStateEnum;
+import cn.caojunkai.cjkbe.exception.BizException;
 import cn.caojunkai.cjkbe.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,25 +43,19 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public AppointExecution appoint(long bookId, long stuId) {
-        try {
             int update = bookDao.reduceNumber(bookId);
             if (update <= 0){
-                return new AppointExecution(bookId,AppointStateEnum.NO_NUMBER);
+                throw new BizException(AppointStateEnum.NO_NUMBER.getStateInfo());
             }
             else {
                 int insert = appointmentDao.insertAppointment(bookId,stuId);
                 if (insert <= 0){
-                    return new AppointExecution(bookId,AppointStateEnum.REPEAT_APPOINT);
+                    throw new BizException(AppointStateEnum.REPEAT_APPOINT.getStateInfo());
                 }
                 else {
                     Appointment appointment = appointmentDao.queryByKeyWithBook(bookId,stuId);
-                    return new AppointExecution(bookId,AppointStateEnum.SUCCESS);
+                    return new AppointExecution(bookId,AppointStateEnum.SUCCESS,appointment);
                 }
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-            // 所有编译期异常转换为运行期异常
-            return new AppointExecution(bookId,AppointStateEnum.INNER_ERROR);
-        }
     }
 }
