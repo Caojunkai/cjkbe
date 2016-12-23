@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 // 告诉junit spring配置文件
-@ContextConfiguration({"classpath:spring/spring-dao.xml","classpath:spring/spring-server.xml"})
+@ContextConfiguration({"classpath:spring/spring-dao.xml","classpath:spring/spring-server.xml","classpath:spring/spring-mq.xml"})
 
 public class BaseTest {
 
